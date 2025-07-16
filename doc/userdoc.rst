@@ -21,7 +21,7 @@ Tutorial steps
 
    .. code-block:: shell
 
-    ros2 launch diffdrive_arduino view_robot.launch.py
+    ros2 launch diffdrive_pici2c view_robot.launch.py
 
    .. warning::
     Getting the following output in terminal is OK: ``Warning: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist``.
@@ -35,7 +35,7 @@ Tutorial steps
 
    .. code-block:: shell
 
-    ros2 launch diffdrive_arduino diffbot.launch.py
+    ros2 launch diffdrive_pici2c diffbot.launch.py
 
    The launch file loads and starts the robot hardware, controllers and opens *RViz*.
    In the starting terminal you will see a lot of output from the hardware implementation showing its internal states.

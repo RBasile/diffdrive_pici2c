@@ -1,5 +1,5 @@
-#ifndef DIFFDRIVE_ARDUINO_WHEEL_HPP
-#define DIFFDRIVE_ARDUINO_WHEEL_HPP
+#ifndef DIFFDRIVE_PICI2C_WHEEL_HPP
+#define DIFFDRIVE_PICI2C_WHEEL_HPP
 
 #include <string>
 #include <cmath>
@@ -10,7 +10,7 @@ class Wheel
     public:
 
     std::string name = "";
-    int enc = 0;
+    float enc = 0;
     double cmd = 0;
     double pos = 0;
     double vel = 0;
@@ -40,4 +40,4 @@ class Wheel
 };
 
 
-#endif // DIFFDRIVE_ARDUINO_WHEEL_HPP
+#endif // DIFFDRIVE_PICI2C_WHEEL_HPP

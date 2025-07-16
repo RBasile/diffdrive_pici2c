@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef DIFFDRIVE_ARDUINO__DIFFBOT_SYSTEM_HPP_
-#define DIFFDRIVE_ARDUINO__DIFFBOT_SYSTEM_HPP_
+#ifndef DIFFDRIVE_PICI2C__DIFFBOT_SYSTEM_HPP_
+#define DIFFDRIVE_PICI2C__DIFFBOT_SYSTEM_HPP_
 
 #include <memory>
 #include <string>
@@ -29,12 +29,12 @@
 #include "rclcpp/time.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
-#include "diffdrive_arduino/visibility_control.h"
+#include "diffdrive_pici2c/visibility_control.h"
 
-#include "diffdrive_arduino/arduino_comms.hpp"
-#include "diffdrive_arduino/wheel.hpp"
+#include "diffdrive_pici2c/picI2c.hpp"
+#include "diffdrive_pici2c/wheel.hpp"
 
-namespace diffdrive_arduino
+namespace diffdrive_pici2c
 {
 class DiffDriveArduinoHardware : public hardware_interface::SystemInterface
 {
@@ -58,49 +58,49 @@ struct Config
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(DiffDriveArduinoHardware);
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_init(
     const hardware_interface::HardwareInfo & info) override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_configure(
     const rclcpp_lifecycle::State & previous_state) override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_cleanup(
     const rclcpp_lifecycle::State & previous_state) override;
 
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_activate(
     const rclcpp_lifecycle::State & previous_state) override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_deactivate(
     const rclcpp_lifecycle::State & previous_state) override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::return_type read(
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
-  DIFFDRIVE_ARDUINO_PUBLIC
+  DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::return_type write(
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
 private:
 
-  ArduinoComms comms_;
+  I2CpicCom comms_;
   Config cfg_;
   Wheel wheel_l_;
   Wheel wheel_r_;
 };
 
-}  // namespace diffdrive_arduino
+}  // namespace diffdrive_pici2c
 
-#endif  // DIFFDRIVE_ARDUINO__DIFFBOT_SYSTEM_HPP_
+#endif  // DIFFDRIVE_PICI2C__DIFFBOT_SYSTEM_HPP_

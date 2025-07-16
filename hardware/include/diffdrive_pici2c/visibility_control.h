@@ -19,38 +19,38 @@
  * library cannot have, but the consuming code must have inorder to link.
  */
 
-#ifndef DIFFDRIVE_ARDUINO__VISIBILITY_CONTROL_H_
-#define DIFFDRIVE_ARDUINO__VISIBILITY_CONTROL_H_
+#ifndef DIFFDRIVE_PICI2C__VISIBILITY_CONTROL_H_
+#define DIFFDRIVE_PICI2C__VISIBILITY_CONTROL_H_
 
 // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
 //     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
-#define DIFFDRIVE_ARDUINO_EXPORT __attribute__((dllexport))
-#define DIFFDRIVE_ARDUINO_IMPORT __attribute__((dllimport))
+#define DIFFDRIVE_PICI2C_EXPORT __attribute__((dllexport))
+#define DIFFDRIVE_PICI2C_IMPORT __attribute__((dllimport))
 #else
-#define DIFFDRIVE_ARDUINO_EXPORT __declspec(dllexport)
-#define DIFFDRIVE_ARDUINO_IMPORT __declspec(dllimport)
+#define DIFFDRIVE_PICI2C_EXPORT __declspec(dllexport)
+#define DIFFDRIVE_PICI2C_IMPORT __declspec(dllimport)
 #endif
-#ifdef DIFFDRIVE_ARDUINO_BUILDING_DLL
-#define DIFFDRIVE_ARDUINO_PUBLIC DIFFDRIVE_ARDUINO_EXPORT
+#ifdef DIFFDRIVE_PICI2C_BUILDING_DLL
+#define DIFFDRIVE_PICI2C_PUBLIC DIFFDRIVE_PICI2C_EXPORT
 #else
-#define DIFFDRIVE_ARDUINO_PUBLIC DIFFDRIVE_ARDUINO_IMPORT
+#define DIFFDRIVE_PICI2C_PUBLIC DIFFDRIVE_PICI2C_IMPORT
 #endif
-#define DIFFDRIVE_ARDUINO_PUBLIC_TYPE DIFFDRIVE_ARDUINO_PUBLIC
-#define DIFFDRIVE_ARDUINO_LOCAL
+#define DIFFDRIVE_PICI2C_PUBLIC_TYPE DIFFDRIVE_PICI2C_PUBLIC
+#define DIFFDRIVE_PICI2C_LOCAL
 #else
-#define DIFFDRIVE_ARDUINO_EXPORT __attribute__((visibility("default")))
-#define DIFFDRIVE_ARDUINO_IMPORT
+#define DIFFDRIVE_PICI2C_EXPORT __attribute__((visibility("default")))
+#define DIFFDRIVE_PICI2C_IMPORT
 #if __GNUC__ >= 4
-#define DIFFDRIVE_ARDUINO_PUBLIC __attribute__((visibility("default")))
-#define DIFFDRIVE_ARDUINO_LOCAL __attribute__((visibility("hidden")))
+#define DIFFDRIVE_PICI2C_PUBLIC __attribute__((visibility("default")))
+#define DIFFDRIVE_PICI2C_LOCAL __attribute__((visibility("hidden")))
 #else
-#define DIFFDRIVE_ARDUINO_PUBLIC
-#define DIFFDRIVE_ARDUINO_LOCAL
+#define DIFFDRIVE_PICI2C_PUBLIC
+#define DIFFDRIVE_PICI2C_LOCAL
 #endif
-#define DIFFDRIVE_ARDUINO_PUBLIC_TYPE
+#define DIFFDRIVE_PICI2C_PUBLIC_TYPE
 #endif
 
-#endif  // DIFFDRIVE_ARDUINO__VISIBILITY_CONTROL_H_
+#endif  // DIFFDRIVE_PICI2C__VISIBILITY_CONTROL_H_

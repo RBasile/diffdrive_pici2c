@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "diffdrive_arduino/diffbot_system.hpp"
+#include "diffdrive_pici2c/diffbot_system.hpp"
 
 #include <chrono>
 #include <cmath>
@@ -23,7 +23,7 @@
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-namespace diffdrive_arduino
+namespace diffdrive_pici2c
 {
 hardware_interface::CallbackReturn DiffDriveArduinoHardware::on_init(
   const hardware_interface::HardwareInfo & info)
@@ -150,7 +150,7 @@ hardware_interface::CallbackReturn DiffDriveArduinoHardware::on_configure(
   {
     comms_.disconnect();
   }
-  comms_.connect(cfg_.device, cfg_.baud_rate, cfg_.timeout_ms);
+  comms_.connect(cfg_.device, cfg_.timeout_ms);
   RCLCPP_INFO(rclcpp::get_logger("DiffDriveArduinoHardware"), "Successfully configured!");
 
   return hardware_interface::CallbackReturn::SUCCESS;
@@ -178,10 +178,7 @@ hardware_interface::CallbackReturn DiffDriveArduinoHardware::on_activate(
   {
     return hardware_interface::CallbackReturn::ERROR;
   }
-  if (cfg_.pid_p > 0)
-  {
-    comms_.set_pid_values(cfg_.pid_p,cfg_.pid_d,cfg_.pid_i,cfg_.pid_o);
-  }
+
   RCLCPP_INFO(rclcpp::get_logger("DiffDriveArduinoHardware"), "Successfully activated!");
 
   return hardware_interface::CallbackReturn::SUCCESS;
@@ -196,6 +193,11 @@ hardware_interface::CallbackReturn DiffDriveArduinoHardware::on_deactivate(
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
+#define DEG_TO_RAD 0.017453292519943295769236907684886
+#define RAD_TO_DEG 57.295779513082320876798154814105
+#define radians(deg) ((deg)*DEG_TO_RAD)
+#define degrees(rad) ((rad)*RAD_TO_DEG)
+
 hardware_interface::return_type DiffDriveArduinoHardware::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & period)
 {
@@ -209,17 +211,17 @@ hardware_interface::return_type DiffDriveArduinoHardware::read(
   double delta_seconds = period.seconds();
 
   double pos_prev = wheel_l_.pos;
-  wheel_l_.pos = wheel_l_.calc_enc_angle();
+  wheel_l_.pos = radians(wheel_l_.enc);
   wheel_l_.vel = (wheel_l_.pos - pos_prev) / delta_seconds;
 
   pos_prev = wheel_r_.pos;
-  wheel_r_.pos = wheel_r_.calc_enc_angle();
+  wheel_r_.pos = radians(wheel_r_.enc);
   wheel_r_.vel = (wheel_r_.pos - pos_prev) / delta_seconds;
 
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type diffdrive_arduino ::DiffDriveArduinoHardware::write(
+hardware_interface::return_type diffdrive_pici2c ::DiffDriveArduinoHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
   if (!comms_.connected())
@@ -227,14 +229,14 @@ hardware_interface::return_type diffdrive_arduino ::DiffDriveArduinoHardware::wr
     return hardware_interface::return_type::ERROR;
   }
 
-  int motor_l_counts_per_loop = wheel_l_.cmd / wheel_l_.rads_per_count / cfg_.loop_rate;
-  int motor_r_counts_per_loop = wheel_r_.cmd / wheel_r_.rads_per_count / cfg_.loop_rate;
-  comms_.set_motor_values(motor_l_counts_per_loop, motor_r_counts_per_loop);
+  float motor_l_counts_per_loop = wheel_l_.cmd / wheel_l_.rads_per_count / cfg_.loop_rate;
+  float motor_r_counts_per_loop = wheel_r_.cmd / wheel_r_.rads_per_count / cfg_.loop_rate;
+  comms_.sendDataToMotor(motor_l_counts_per_loop, motor_r_counts_per_loop);
   return hardware_interface::return_type::OK;
 }
 
-}  // namespace diffdrive_arduino
+}  // namespace diffdrive_pici2c
 
 #include "pluginlib/class_list_macros.hpp"
 PLUGINLIB_EXPORT_CLASS(
-  diffdrive_arduino::DiffDriveArduinoHardware, hardware_interface::SystemInterface)
+  diffdrive_pici2c::DiffDriveArduinoHardware, hardware_interface::SystemInterface)

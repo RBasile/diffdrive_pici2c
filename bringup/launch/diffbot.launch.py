@@ -28,7 +28,7 @@ def generate_launch_description():
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
             PathJoinSubstitution(
-                [FindPackageShare("diffdrive_arduino"), "urdf", "diffbot.urdf.xacro"]
+                [FindPackageShare("diffdrive_pici2c"), "urdf", "diffbot.urdf.xacro"]
             ),
         ]
     )
@@ -36,13 +36,13 @@ def generate_launch_description():
 
     robot_controllers = PathJoinSubstitution(
         [
-            FindPackageShare("diffdrive_arduino"),
+            FindPackageShare("diffdrive_pici2c"),
             "config",
             "diffbot_controllers.yaml",
         ]
     )
     rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare("diffdrive_arduino"), "rviz", "diffbot.rviz"]
+        [FindPackageShare("diffdrive_pici2c"), "rviz", "diffbot.rviz"]
     )
 
     control_node = Node(
