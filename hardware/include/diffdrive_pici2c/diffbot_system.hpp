@@ -36,7 +36,7 @@
 
 namespace diffdrive_pici2c
 {
-class DiffDriveArduinoHardware : public hardware_interface::SystemInterface
+class DiffDrivePicHardware : public hardware_interface::SystemInterface
 {
 
 struct Config
@@ -56,7 +56,7 @@ struct Config
 
 
 public:
-  RCLCPP_SHARED_PTR_DEFINITIONS(DiffDriveArduinoHardware);
+  RCLCPP_SHARED_PTR_DEFINITIONS(DiffDrivePicHardware);
 
   DIFFDRIVE_PICI2C_PUBLIC
   hardware_interface::CallbackReturn on_init(

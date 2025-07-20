@@ -96,8 +96,8 @@ Tutorial steps
 
    .. code-block:: shell
 
-    [DiffDriveArduinoHardware]: Got command 43.33333 for 'left_wheel_joint'!
-    [DiffDriveArduinoHardware]: Got command 50.00000 for 'right_wheel_joint'!
+    [DiffDrivePicHardware]: Got command 43.33333 for 'left_wheel_joint'!
+    [DiffDrivePicHardware]: Got command 50.00000 for 'right_wheel_joint'!
 
 Files used for this demos
 #########################
