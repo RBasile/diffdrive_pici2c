@@ -116,13 +116,27 @@ void read_encoder_values(float &rotR, float &rotL)
     rotR = convertPIC18Float(buf);
     rotL = convertPIC18Float(buf + 4);
     std::cout << "left: " << rotL << " right: " << rotR << std::endl;
-
   }
+}
+int reset_encoder_values()
+{
+  //std::cout << "left: " << rotSpeedL << " right: " << rotSpeedR << std::endl;
+
+  uint8_t buffer[29];  // 1 byte for register, 7 float de 4 byte 
+  memset(buffer, 0, sizeof(buffer));
+  buffer[0] = 0x10;  // rotR
+
+  if (write(i2c_fd_, buffer, sizeof(buffer)) != sizeof(buffer)) {
+    std::cout << "Error Reset: " << std::endl;
+    return 0;
+  }
+  std::cout << "Reset: " << std::endl;
+  return 1;
 }
 
 int sendDataToMotor(float rotSpeedR = 0,float rotSpeedL = 0)
 {
-  std::cout << "left: " << rotSpeedL << " right: " << rotSpeedR << std::endl;
+  //std::cout << "left: " << rotSpeedL << " right: " << rotSpeedR << std::endl;
 
   uint8_t buffer[9];  // 1 byte for register, 4 for right speed, 4 for left speed
   buffer[0] = 0x08;
@@ -134,6 +148,9 @@ int sendDataToMotor(float rotSpeedR = 0,float rotSpeedL = 0)
   }
   return 1;
 }
+
+
+
 
 private:
     //LibSerial::SerialPort serial_conn_;

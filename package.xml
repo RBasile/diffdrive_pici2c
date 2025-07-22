@@ -5,9 +5,9 @@
   <version>0.0.0</version>
   <description>Demo package of `ros2_control` hardware for DiffBot.</description>
 
-  <maintainer email="denis.stogl@stoglrobotics.de">Basile Rouault</maintainer>
+  <maintainer email="basile@rbasile.fr">Basile Rouault</maintainer>
 
-  <author email="">Basile Rouault</author>
+  <author email="basile@rbasile.fr">Basile Rouault</author>
 
   <license>Apache-2.0</license>
 

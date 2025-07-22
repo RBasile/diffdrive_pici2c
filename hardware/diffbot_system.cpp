@@ -151,6 +151,7 @@ hardware_interface::CallbackReturn DiffDrivePicHardware::on_configure(
     comms_.disconnect();
   }
   comms_.connect(cfg_.device, cfg_.timeout_ms);
+  comms_.reset_encoder_values();
   RCLCPP_INFO(rclcpp::get_logger("DiffDrivePicHardware"), "Successfully configured!");
 
   return hardware_interface::CallbackReturn::SUCCESS;
@@ -206,7 +207,7 @@ hardware_interface::return_type DiffDrivePicHardware::read(
     return hardware_interface::return_type::ERROR;
   }
 
-  comms_.read_encoder_values(wheel_l_.enc, wheel_r_.enc);
+  comms_.read_encoder_values(wheel_r_.enc,wheel_l_.enc);
 
   double delta_seconds = period.seconds();
 
@@ -229,9 +230,25 @@ hardware_interface::return_type diffdrive_pici2c ::DiffDrivePicHardware::write(
     return hardware_interface::return_type::ERROR;
   }
 
-  float motor_l_counts_per_loop = wheel_l_.cmd / wheel_l_.rads_per_count / cfg_.loop_rate;
-  float motor_r_counts_per_loop = wheel_r_.cmd / wheel_r_.rads_per_count / cfg_.loop_rate;
-  comms_.sendDataToMotor(motor_l_counts_per_loop, motor_r_counts_per_loop);
+  float radtorpm = 9.5492965964254;
+
+  float motor_l_pwm = wheel_l_.cmd * radtorpm * 3.413;
+  float motor_r_pwm = wheel_r_.cmd * radtorpm * 3.413;
+
+  RCLCPP_DEBUG(
+    rclcpp::get_logger("DiffDrivePicHardware"),
+    "Left: %.4f, Right: %.4f",
+    wheel_l_.cmd,
+    wheel_r_.cmd
+  );
+  RCLCPP_DEBUG(
+    rclcpp::get_logger("DiffDrivePicHardware"),
+    "PwmL: %.4f, Pwm R: %.4f",
+    motor_l_pwm,
+    motor_r_pwm
+  );
+
+  comms_.sendDataToMotor(motor_r_pwm,motor_l_pwm);
   return hardware_interface::return_type::OK;
 }
 
