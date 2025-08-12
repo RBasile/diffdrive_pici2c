@@ -120,12 +120,9 @@ void read_encoder_values(float &rotR, float &rotL)
 }
 int reset_encoder_values()
 {
-  //std::cout << "left: " << rotSpeedL << " right: " << rotSpeedR << std::endl;
-
-  uint8_t buffer[29];  // 1 byte for register, 7 float de 4 byte 
-  memset(buffer, 0, sizeof(buffer));
-  buffer[0] = 0x10;  // rotR
-
+  uint8_t buffer[2];
+  buffer[0] = 56;  //status register
+  buffer[1] = 1;  //reset bit in status
   if (write(i2c_fd_, buffer, sizeof(buffer)) != sizeof(buffer)) {
     std::cout << "Error Reset: " << std::endl;
     return 0;
