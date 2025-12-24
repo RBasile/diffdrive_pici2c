@@ -232,8 +232,9 @@ hardware_interface::return_type diffdrive_pici2c ::DiffDrivePicHardware::write(
 
   //float radtorpm = 19.0985931929; //9.5492965964254*2; don't know why need multiply by 2
 
-  float motor_l_degS = degrees(wheel_l_.cmd);
+
   float motor_r_degS = degrees(wheel_r_.cmd);
+  float motor_l_degS = degrees(wheel_l_.cmd);
 
   RCLCPP_DEBUG(
     rclcpp::get_logger("DiffDrivePicHardware"),
@@ -248,7 +249,7 @@ hardware_interface::return_type diffdrive_pici2c ::DiffDrivePicHardware::write(
     motor_r_degS
   );
 
-  comms_.sendDataToMotor(motor_l_degS,motor_r_degS);
+  comms_.sendDataToMotor(motor_r_degS,motor_l_degS);
   return hardware_interface::return_type::OK;
 }
 
