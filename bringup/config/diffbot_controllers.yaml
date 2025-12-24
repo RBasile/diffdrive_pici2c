@@ -15,7 +15,7 @@ diffbot_base_controller:
 
     wheel_separation: 0.198 #18cm bettew inside of wheel wheel thikness is 18 mm
     #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-    wheel_radius: 0.0375
+    wheel_radius: 0.0378
 
     wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0
@@ -27,7 +27,7 @@ diffbot_base_controller:
     pose_covariance_diagonal : [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 
-    open_loop: true
+    open_loop: false
     enable_odom_tf: true
 
     cmd_vel_timeout: 0.5
